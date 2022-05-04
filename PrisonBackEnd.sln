@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrisonBackEnd", "PrisonBackEnd\PrisonBackEnd.csproj", "{C461FE44-33AD-4D75-B3C2-CD09D6E8C9B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C461FE44-33AD-4D75-B3C2-CD09D6E8C9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C461FE44-33AD-4D75-B3C2-CD09D6E8C9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C461FE44-33AD-4D75-B3C2-CD09D6E8C9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C461FE44-33AD-4D75-B3C2-CD09D6E8C9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {587EC9E4-AD9C-42E2-A578-3648F5CE2A01}
+	EndGlobalSection
+EndGlobal
