@@ -91,7 +91,7 @@ namespace PrisonBackEnd.Controllers
 
             string query = @" update dbo.Stafi set
                      
-                       
+                       StafiID='" + s.StafiID + @"',
                        DrejtoriID='" + s.DrejtoriID + @"',
                        Emri='" + s.Emri + @"',
                        Mbiemri='" + s.Mbiemri + @"',
@@ -99,7 +99,7 @@ namespace PrisonBackEnd.Controllers
                        Rruga='" + s.Rruga + @"',
                        Zipkodi='" + s.Zipkodi + @"',
                        DateLindja='" + s.DateLindja + @"',
-                       Gjinia='" + s.Gjinia + @"',
+                       Gjinia='" + s.Gjinia + @"'
                        where StafiID= '" + s.StafiID + @"'
                        ";
 
@@ -121,7 +121,7 @@ namespace PrisonBackEnd.Controllers
             return new JsonResult("Updated Succesfully");
         }
 
-        
+
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
