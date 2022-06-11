@@ -1,8 +1,20 @@
-create database LabCourse
-use LabCourse
+create database LabCourse05
+use LabCourse05
+
+create table Sektori(
+	SektoriID int not null primary key,
+	EmriSektorit varchar(50),
+)
+
+create table Infiermeria(
+	InfiermeriaID int not null primary key,
+	SektoriID int not null references Sektori(SektoriID),
+	Kapaciteti char(2) not null,
+)
 
 create table Drejtori(
 	DrejtoriID int not null primary key,
+	SektoriID int not null references Sektori(SektoriID) unique,
 	Emri varchar(40) not null,
 	Mbiemri varchar(40), 
 	Qyteti varchar(50),
@@ -32,6 +44,34 @@ create table Oficeri(
 	primary key(OficeriID),
 )
 
+create table GardianiBurgit(
+	OficeriID int not null references Oficeri(OficeriID),
+	primary key(OficeriID),
+)
+
+create table OficeriPushimit(
+	OficeriID int not null references Oficeri(OficeriID),
+	primary key(OficeriID),
+)
+
+create table OficeriKorrektues(
+	OficeriID int not null references Oficeri(OficeriID),
+	primary key(OficeriID),
+)
+
+create table OficeriParaburgimit(
+	OficeriID int not null references Oficeri(OficeriID),
+	primary key(OficeriID),
+)
+
+
+create table Mjeket(
+	MjekuID int not null references Stafi(StafiID),
+	primary key(MjekuID),
+	Fakulteti varchar(50),
+	GradaAkademike varchar(50)
+)
+
 create table Llogaria(
 	OficeriID int not null references Oficeri(OficeriID),
 	primary key(OficeriID),
@@ -39,23 +79,93 @@ create table Llogaria(
 	passwordi varchar(50) not null
 )
 
-insert into Drejtori values( 1, 'Arber','Ejupi','Lipjan','Murturi','10000', '02.06.1999', 'M');
-insert into Stafi values(200, 1, 'Arber','Ejupi','Lipjan','Murturi','10000', '02.06.1999', 'M');
-insert into Stafi values(201, 1,'Filan', 'Fisteku', 'Prishtine', 'Kalabria', '14000', '09.16.1980', 'M');
-insert into Stafi values(202, 1,'Filan', 'Fisteku', 'Prishtine', 'Kalabria', '14000',  '09.16.1980', 'M');
+Create table Qelia(
+	QeliaID int not null primary key,
+	KapacitetiTeBurgosurve char(3),
+	SektoriID int not null references Sektori(SektoriID),
+)
+create table Cleaner(
+	CleanerID int not null references Stafi(StafiID),
+	primary key(CleanerID),
+)
+
+create table MirembajtjaQelive(
+	CleanerID int not null references Cleaner(CleanerID),
+	QeliaID int not null references Qelia(QeliaID),
+	constraint mirembajtja_qelive primary key(CleanerID, QeliaID),
+	[Data] date,
+	Koha time,
+)
+
+create table Pushimi(
+	PushimiID int not null primary key,
+	QeliaID int  not null references Qelia(QeliaID),
+	Dita varchar(50) not null,
+	[Data] date,
+	Orari time,
+	KohaFillimit time,
+	KohaMbarimit time
+)
 
 
-insert into Oficeri values(200);
-insert into Oficeri values(201);
+Create table Burgosuri(
+	BurgosuriID int not null primary key,
+	Emri varchar(50) not null,
+	Mbiemri varchar(50) not null,
+	Qyteti varchar(50)not null,
+	Rruga varchar(100)not null,
+	ZipKodi varchar(10)not null,
+	EmriRruges varchar(50)not null,
+	NrShtepise char(5)not null,
+	DataHyrjes date not null,
+	DataDaljes date not null,
+	DateLindja date not null,
+	QeliaID int not null foreign key references Qelia(QeliaID),
+	Gjinia char(1),
+	check (Gjinia IN('M','F')),
+)
 
-insert into Llogaria values(200, 'Emri', 'AAAA')
-insert into Llogaria values(201, 'EmriMbiemri', 'AAA')
-Select * from Drejtori
-Select* from Stafi
-Select * from Oficeri
-select * from Llogaria
+create table Krimi (
+	KrimiID int not null,
+	constraint krimi_burgosuri foreign key(KrimiID) references Burgosuri(BurgosuriID),
+	DataKrimit date not null,
+	LlojiKrimit varchar(50),
+)
 
-drop table Llogaria
-drop table Oficeri
-Drop Table Stafi
-drop table Drejtori
+create table Vizitori(
+	VizitoriID int not null primary key,
+	Emri varchar(50) not null,
+	Mbiemri varchar(50),
+	BurgosuriID int not null foreign key references Burgosuri(BurgosuriID),
+	EmriIBurgosurit varchar(50) not null,
+)
+
+
+create table Vizita(
+	VizitaID int not null primary key,
+	BurgosuriID int not null foreign key references Burgosuri(BurgosuriID),
+	VizitoriID int not null foreign key references Vizitori(VizitoriID),
+	[Data] date,
+	KohaFillimit date,
+	KohaMbarimit date,
+)
+
+create table Mbikqyre(
+	OficeriID int not null foreign key references Oficeri(OficeriID),
+	VizitaID int not null foreign key references Vizita(VizitaID),
+	primary key(OficeriID, VizitaID)
+)
+
+create table Kontrollohet(
+	KontrollaID int not null primary key,
+	BurgosuriID int not null references Burgosuri(BurgosuriID),
+	InfiermeriaID int not null references Infiermeria(InfiermeriaID),
+	[Data] date not null,
+	Arsyeja varchar(50) not null,
+)
+
+create table Kontrollon(
+	InfermieriID int not null foreign key references Infiermeria(InfiermeriaID),
+	KontrollaID int not null foreign key references Kontrollohet(KontrollaID),
+	primary key(InfermieriID, KontrollaID)
+)
