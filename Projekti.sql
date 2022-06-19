@@ -5,6 +5,11 @@ create table Sektori(
 	SektoriID int not null primary key,
 	EmriSektorit varchar(50),
 )
+insert into Sektori values(1, 'A')
+
+insert into Sektori values(2, 'A')
+
+insert into Sektori values(3, 'A')
 
 create table Infiermeria(
 	InfiermeriaID int not null primary key,
@@ -24,8 +29,8 @@ create table Drejtori(
 	Gjinia char(1),
 	check (Gjinia IN('M','F'))
 )
-
-
+select * from Sektori
+Select * from Drejtori
 create table Stafi(
 	StafiID int not null primary key,
 	DrejtoriID int not null references Drejtori(DrejtoriID),
@@ -169,3 +174,17 @@ create table Kontrollon(
 	KontrollaID int not null foreign key references Kontrollohet(KontrollaID),
 	primary key(InfermieriID, KontrollaID)
 )
+Select * from Drejtori
+Select * from Stafi
+insert into Stafi values(1,1,'ar','ar','ar','ar','ar','2020-01-01','M');
+
+insert into Stafi values(2,1,'ar','ar','ar','ar','ar','2020-01-01','M');
+
+insert into Stafi values(3,1,'ar','ar','ar','ar','ar','2020-01-01','M');
+select* from Oficeri
+insert into Oficeri values(1)
+insert into Oficeri values(2)
+insert into Oficeri values(3)
+
+alter table Burgosuri
+drop column EmriRruges
