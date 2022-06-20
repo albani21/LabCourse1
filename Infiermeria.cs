@@ -2,10 +2,9 @@
 {
     public class Infiermeria
     {
-        public int InfermeriaID { get; set; }
-
+        public int InfiermeriaID { get; set; }
         public int SektoriID { get; set; }
-
-        public string Kapaciteti { get; set; }
+        public char Kapaciteti { get; set; }    
+        
     }
 }
