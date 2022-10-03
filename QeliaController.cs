@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PushimiController : ControllerBase
+    public class QeliaController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public PushimiController(IConfiguration configuration)
+        public QeliaController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Pushimi";
+            string query = @" select * from Qelia";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,19 +41,15 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Pushimi l)
+        public JsonResult Post(Qelia l)
         {
             string query = @"
-                        insert into Pushimi (PushimiID,QeliaID,Dita, Data, Orari, KohaFillimit,KohaMbarimit)
+                        insert into Qelia (QeliaID,KapacitetiTeBurgosurve,SektoriID)
                         values 
                         (
-                        '" + l.PushimiID + @"'
-                        ,'" + l.QeliaID + @"'
-                        ,'" + l.Dita + @"'
-                        ,'" + l.Data + @"'
-                        ,'" + l.Orari + @"'
-                        ,'" + l.KohaFillimit + @"'
-                        ,'" + l.KohaMbarimit + @"'
+                        '" + l.QeliaID + @"'
+                        ,'" + l.KapacitetiTeBurgosurve + @"'
+                        ,'" + l.SektoriID + @"'
                         )
                         ";
 
@@ -76,18 +72,14 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Pushimi ll)
+        public JsonResult Put(Qelia ll)
         {
-            string query = @" update dbo.Pushimi set
+            string query = @" update dbo.Qelia set
                      
-                        PushimiID=  '" + ll.PushimiID + @"'
-                        ,QeliaID=  '" + ll.QeliaID + @"'
-                        ,Dita=  '" + ll.Dita + @"'
-                        ,Data=  '" + ll.Data + @"'
-                        ,Orari=  '" + ll.Orari + @"'
-                        ,KohaFillimit=  '" + ll.KohaFillimit + @"'
-                        ,KohaMbarimit=  '" + ll.KohaMbarimit + @"'
-                         where  PushimiID=  '" + ll.PushimiID + @"'
+                        QeliaID=  '" + ll.QeliaID + @"'
+                        ,KapacitetiTeBurgosurve=  '" + ll.KapacitetiTeBurgosurve + @"'
+                        ,SektoriID=  '" + ll.SektoriID + @"'
+                         where  QeliaID=  '" + ll.QeliaID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -111,8 +103,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Pushimi
-                where PushimiID=" + id + @"
+                delete from Qelia
+                where QeliaID=" + id + @"
             ";
 
             DataTable table = new DataTable();

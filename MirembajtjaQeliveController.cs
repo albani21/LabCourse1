@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PushimiController : ControllerBase
+    public class MirembajtjaQeliveController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public PushimiController(IConfiguration configuration)
+        public MirembajtjaQeliveController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Pushimi";
+            string query = @" select * from MirembajtjaQelive";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,19 +41,16 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Pushimi l)
+        public JsonResult Post(MirembajtjaQelive l)
         {
             string query = @"
-                        insert into Pushimi (PushimiID,QeliaID,Dita, Data, Orari, KohaFillimit,KohaMbarimit)
+                        insert into MirembajtjaQelive (CleanerID,QeliaID,Data, Koha)
                         values 
                         (
-                        '" + l.PushimiID + @"'
+                        '" + l.CleanerID + @"'
                         ,'" + l.QeliaID + @"'
-                        ,'" + l.Dita + @"'
                         ,'" + l.Data + @"'
-                        ,'" + l.Orari + @"'
-                        ,'" + l.KohaFillimit + @"'
-                        ,'" + l.KohaMbarimit + @"'
+                        ,'" + l.Koha + @"'
                         )
                         ";
 
@@ -76,18 +73,15 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Pushimi ll)
+        public JsonResult Put(MirembajtjaQelive ll)
         {
-            string query = @" update dbo.Pushimi set
+            string query = @" update dbo.MirembajtjaQelive set
                      
-                        PushimiID=  '" + ll.PushimiID + @"'
+                        CleanerID=  '" + ll.CleanerID + @"'
                         ,QeliaID=  '" + ll.QeliaID + @"'
-                        ,Dita=  '" + ll.Dita + @"'
                         ,Data=  '" + ll.Data + @"'
-                        ,Orari=  '" + ll.Orari + @"'
-                        ,KohaFillimit=  '" + ll.KohaFillimit + @"'
-                        ,KohaMbarimit=  '" + ll.KohaMbarimit + @"'
-                         where  PushimiID=  '" + ll.PushimiID + @"'
+                        ,Koha=  '" + ll.Koha + @"'
+                         where  CleanerID=  '" + ll.CleanerID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -111,8 +105,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Pushimi
-                where PushimiID=" + id + @"
+                delete from MirembajtjaQelive
+                where CleanerID=" + id + @"
             ";
 
             DataTable table = new DataTable();
