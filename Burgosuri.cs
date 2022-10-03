@@ -8,7 +8,7 @@
         public string? Qyteti { get; set; }
         public string? Rruga { get; set; }
         public string? ZipKodi { get; set; }
-        public string? NrShtepise { get; set; }
+
         public DateTime? DataHyrjes { get; set; }
         public DateTime? DataDaljes { get; set; }
         public DateTime? DateLindja { get; set; }

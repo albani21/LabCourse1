@@ -6,6 +6,6 @@ namespace LabCourseBackEnd.Models
     {
         [Key]
         public int SektoriID { get; set; } 
-        public string? SektoriName { get; set; }
+        public string EmriSektorit { get; set; }
     }
 }
