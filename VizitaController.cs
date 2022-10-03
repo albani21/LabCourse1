@@ -1,124 +1,134 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using LabCourseBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PrisonBackEndLab1;
-using PrisonBackEndLabi1.Data;
 
-namespace PrisonBackEndLabi1.Controllers
+using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class VizitaController : ControllerBase
     {
-        private readonly PrisonBackEndLabi1Context _context;
+        private readonly IConfiguration _configuration;
 
-        public VizitaController(PrisonBackEndLabi1Context context)
+        public VizitaController(IConfiguration configuration)
         {
-            _context = context;
+            _configuration = configuration;
         }
 
-        // GET: api/Vizita
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vizita>>> GetVizita()
+        public JsonResult Get()
         {
-          if (_context.Vizita == null)
-          {
-              return NotFound();
-          }
-            return await _context.Vizita.ToListAsync();
-        }
-
-        // GET: api/Vizita/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Vizita>> GetVizita(int id)
-        {
-          if (_context.Vizita == null)
-          {
-              return NotFound();
-          }
-            var vizita = await _context.Vizita.FindAsync(id);
-
-            if (vizita == null)
+            string query = @" select * from Vizita";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                return NotFound();
-            }
-
-            return vizita;
-        }
-
-        // PUT: api/Vizita/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVizita(int id, Vizita vizita)
-        {
-            if (id != vizita.VizitaID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(vizita).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VizitaExists(id))
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
                 }
             }
-
-            return NoContent();
+            return new JsonResult(table);
         }
 
-        // POST: api/Vizita
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
-        public async Task<ActionResult<Vizita>> PostVizita(Vizita vizita)
+        public JsonResult Post(Vizita l)
         {
-          if (_context.Vizita == null)
-          {
-              return Problem("Entity set 'PrisonBackEndLabi1Context.Vizita'  is null.");
-          }
-            _context.Vizita.Add(vizita);
-            await _context.SaveChangesAsync();
+            string query = @"
+                        insert into Vizita (VizitaID,BurgosuriID,VizitoriID, Data, KohaFillimit, KohaMbarimit)
+                        values 
+                        (
+                        '" + l.VizitaID + @"'
+                        ,'" + l.BurgosuriID + @"'
+                        ,'" + l.VizitoriID + @"'
+                        ,'" + l.Data + @"'
+                        ,'" + l.KohaFillimit + @"'
+                        ,'" + l.KohaMbarimit + @"'
+                        )
+                        ";
 
-            return CreatedAtAction("GetVizita", new { id = vizita.VizitaID }, vizita);
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Succesfully");
+
         }
 
-        // DELETE: api/Vizita/5
+        [HttpPut]
+        public JsonResult Put(Vizita ll)
+        {
+            string query = @" update dbo.Vizita set
+                     
+                        VizitaID=  '" + ll.VizitaID + @"'
+                        ,BurgosuriID=  '" + ll.BurgosuriID + @"'
+                        ,VizitoriID=  '" + ll.VizitoriID + @"'
+                        ,Data=  '" + ll.Data + @"'
+                        ,KohaFillimit=  '" + ll.KohaFillimit + @"'
+                        ,KohaMbarimit=  '" + ll.KohaMbarimit + @"'
+                         where  VizitaID=  '" + ll.VizitaID + @"'
+                        ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Updated Succesfully");
+        }
+
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVizita(int id)
+        public JsonResult Delete(int id)
         {
-            if (_context.Vizita == null)
-            {
-                return NotFound();
-            }
-            var vizita = await _context.Vizita.FindAsync(id);
-            if (vizita == null)
-            {
-                return NotFound();
-            }
+            string query = @" 
+                delete from Vizita
+                where VizitaID=" + id + @"
+            ";
 
-            _context.Vizita.Remove(vizita);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Deleted Succesfully");
         }
 
-        private bool VizitaExists(int id)
-        {
-            return (_context.Vizita?.Any(e => e.VizitaID == id)).GetValueOrDefault();
-        }
     }
 }

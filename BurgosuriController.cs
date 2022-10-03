@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LabCourseBackEnd.Data;
 using LabCourseBackEnd.Models;
+
 using System.Data;
 using System.Data.SqlClient;
 
@@ -14,11 +15,11 @@ namespace LabCourseBackEnd.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class StafiController : ControllerBase
+public class BurgosuriController : ControllerBase
 {
     private readonly IConfiguration _configuration;
 
-    public StafiController(IConfiguration configuration)
+    public BurgosuriController(IConfiguration configuration)
     {
         _configuration = configuration;
     }
@@ -26,7 +27,7 @@ public class StafiController : ControllerBase
     [HttpGet]
     public JsonResult Get()
     {
-        string query = @" select * from Stafi";
+        string query = @" select * from Burgosuri";
         DataTable table = new DataTable();
         string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
         SqlDataReader myReader;
@@ -46,20 +47,22 @@ public class StafiController : ControllerBase
 
 
     [HttpPost]
-    public JsonResult Post(Stafi l)
+    public JsonResult Post(Burgosuri l)
     {
         string query = @"
-                        insert into Stafi (StafiID,DrejtoriID,Emri, Mbiemri, Qyteti, Rruga, Zipkodi, DateLindja, Gjinia)
+                        insert into Burgosuri (BurgosuriID,Emri, Mbiemri, Qyteti, Rruga, ZipKodi,DataHyrjes,DataDaljes,DateLindja,QeliaID, Gjinia)
                         values 
                         (
-                        '" + l.StafiID + @"'
-                        ,'" + l.DrejtoriID + @"'
+                        '" + l.BurgosuriID + @"'
                         ,'" + l.Emri + @"'
                         ,'" + l.Mbiemri + @"'
                         ,'" + l.Qyteti + @"'
                         ,'" + l.Rruga + @"'
-                        ,'" + l.Zipkodi + @"'
+                        ,'" + l.ZipKodi + @"'
+                        ,'" + l.DataHyrjes + @"'
+                        ,'" + l.DataDaljes + @"'
                         ,'" + l.DateLindja + @"'
+                        ,'" + l.QeliaID + @"'
                         ,'" + l.Gjinia + @"'
                         )
                         ";
@@ -83,20 +86,22 @@ public class StafiController : ControllerBase
     }
 
     [HttpPut]
-    public JsonResult Put(Stafi ll)
+    public JsonResult Put(Burgosuri ll)
     {
-        string query = @" update dbo.Stafi set
+        string query = @" update dbo.Burgosuri set
                      
-                        StafiID=  '" + ll.StafiID + @"'
-                        ,DrejtoriID=  '" + ll.DrejtoriID + @"'
+                        BurgosuriID=  '" + ll.BurgosuriID + @"'
                         ,Emri=  '" + ll.Emri + @"'
                         ,Mbiemri=  '" + ll.Mbiemri + @"'
                         ,Qyteti=  '" + ll.Qyteti + @"'
                         ,Rruga=  '" + ll.Rruga + @"'
-                        ,Zipkodi=  '" + ll.Zipkodi + @"'
+                        ,ZipKodi=  '" + ll.ZipKodi + @"'
+                        ,DataHyrjes=  '" + ll.DataHyrjes + @"'
+                        ,DataDaljes=  '" + ll.DataDaljes + @"'
                         ,DateLindja=  '" + ll.DateLindja + @"'
+                        ,QeliaID=  '" + ll.QeliaID + @"'
                         ,Gjinia=  '" + ll.Gjinia + @"'
-                         where  StafiID=  '" + ll.StafiID + @"'
+                         where  BurgosuriID=  '" + ll.BurgosuriID + @"'
                         ";
 
         DataTable table = new DataTable();
@@ -120,8 +125,8 @@ public class StafiController : ControllerBase
     public JsonResult Delete(int id)
     {
         string query = @" 
-                delete from Stafi
-                where StafiID=" + id + @"
+                delete from Burgosuri
+                where BurgosuriID=" + id + @"
             ";
 
         DataTable table = new DataTable();

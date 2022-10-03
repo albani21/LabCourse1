@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VizitoriController : ControllerBase
+    public class KontrollohetController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public VizitoriController(IConfiguration configuration)
+        public KontrollohetController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Vizitori";
+            string query = @" select * from Kontrollohet";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,17 +41,17 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Vizitori l)
+        public JsonResult Post(Kontrollohet l)
         {
             string query = @"
-                        insert into Vizitori (VizitoriID,Emri,Mbiemri,BurgosuriID,EmriIBurgosurit)
+                        insert into Kontrollohet (KontrollaID,BurgosuriID,InfiermeriaID,Data,Arsyeja)
                         values 
                         (
-                        '" + l.VizitoriID + @"'
-                        ,'" + l.Emri + @"'
-                        ,'" + l.Mbiemri + @"'
+                        '" + l.KontrollaID + @"'
                         ,'" + l.BurgosuriID + @"'
-                        ,'" + l.EmriIBurgosurit + @"'
+                        ,'" + l.InfiermeriaID + @"'
+                        ,'" + l.Data + @"'
+                        ,'" + l.Arsyeja + @"'
                         )
                         ";
 
@@ -74,16 +74,16 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Vizitori ll)
+        public JsonResult Put(Kontrollohet ll)
         {
-            string query = @" update dbo.Vizitori set
+            string query = @" update dbo.Kontrollohet set
                      
-                        VizitoriID=  '" + ll.VizitoriID + @"'
-                        ,Emri=  '" + ll.Emri + @"'
-                        ,Mbiemri=  '" + ll.Mbiemri + @"'
+                        KontrollaID=  '" + ll.KontrollaID + @"'
                         ,BurgosuriID=  '" + ll.BurgosuriID + @"'
-                        ,EmriIBurgosurit=  '" + ll.EmriIBurgosurit + @"'
-                         where  VizitoriID=  '" + ll.VizitoriID + @"'
+                        ,InfiermeriaID=  '" + ll.InfiermeriaID + @"'
+                        ,Data=  '" + ll.Data + @"'
+                        ,Arsyeja=  '" + ll.Arsyeja + @"'
+                         where  KontrollaID=  '" + ll.KontrollaID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -107,8 +107,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Vizitori
-                where VizitoriID=" + id + @"
+                delete from Kontrollohet
+                where KontrollaID=" + id + @"
             ";
 
             DataTable table = new DataTable();

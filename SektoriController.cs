@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VizitoriController : ControllerBase
+    public class SektoriController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public VizitoriController(IConfiguration configuration)
+        public SektoriController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Vizitori";
+            string query = @" select * from Sektori";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,17 +41,15 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Vizitori l)
+        public JsonResult Post(Sektori l)
         {
             string query = @"
-                        insert into Vizitori (VizitoriID,Emri,Mbiemri,BurgosuriID,EmriIBurgosurit)
+                        insert into Sektori (SektoriID,EmriSektorit)
                         values 
                         (
-                        '" + l.VizitoriID + @"'
-                        ,'" + l.Emri + @"'
-                        ,'" + l.Mbiemri + @"'
-                        ,'" + l.BurgosuriID + @"'
-                        ,'" + l.EmriIBurgosurit + @"'
+                        '" + l.SektoriID + @"'
+                        ,'" + l.EmriSektorit + @"'
+                        
                         )
                         ";
 
@@ -74,16 +72,14 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Vizitori ll)
+        public JsonResult Put(Sektori ll)
         {
-            string query = @" update dbo.Vizitori set
+            string query = @" update dbo.Sektori set
                      
-                        VizitoriID=  '" + ll.VizitoriID + @"'
-                        ,Emri=  '" + ll.Emri + @"'
-                        ,Mbiemri=  '" + ll.Mbiemri + @"'
-                        ,BurgosuriID=  '" + ll.BurgosuriID + @"'
-                        ,EmriIBurgosurit=  '" + ll.EmriIBurgosurit + @"'
-                         where  VizitoriID=  '" + ll.VizitoriID + @"'
+                        SektoriID=  '" + ll.SektoriID + @"'
+                        ,EmriSektorit=  '" + ll.EmriSektorit + @"'
+                       
+                         where  SektoriID=  '" + ll.SektoriID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -107,8 +103,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Vizitori
-                where VizitoriID=" + id + @"
+                delete from Sektori
+                where SektoriID=" + id + @"
             ";
 
             DataTable table = new DataTable();

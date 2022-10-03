@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VizitoriController : ControllerBase
+    public class KontrollonController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public VizitoriController(IConfiguration configuration)
+        public KontrollonController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Vizitori";
+            string query = @" select * from Kontrollon";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,17 +41,15 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Vizitori l)
+        public JsonResult Post(Kontrollon l)
         {
             string query = @"
-                        insert into Vizitori (VizitoriID,Emri,Mbiemri,BurgosuriID,EmriIBurgosurit)
+                        insert into Kontrollon (InfermieriID,KontrollaID)
                         values 
                         (
-                        '" + l.VizitoriID + @"'
-                        ,'" + l.Emri + @"'
-                        ,'" + l.Mbiemri + @"'
-                        ,'" + l.BurgosuriID + @"'
-                        ,'" + l.EmriIBurgosurit + @"'
+                        '" + l.InfermieriID + @"'
+                        ,'" + l.KontrollaID + @"'
+                        
                         )
                         ";
 
@@ -74,16 +72,14 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Vizitori ll)
+        public JsonResult Put(Kontrollon ll)
         {
-            string query = @" update dbo.Vizitori set
+            string query = @" update dbo.Kontrollon set
                      
-                        VizitoriID=  '" + ll.VizitoriID + @"'
-                        ,Emri=  '" + ll.Emri + @"'
-                        ,Mbiemri=  '" + ll.Mbiemri + @"'
-                        ,BurgosuriID=  '" + ll.BurgosuriID + @"'
-                        ,EmriIBurgosurit=  '" + ll.EmriIBurgosurit + @"'
-                         where  VizitoriID=  '" + ll.VizitoriID + @"'
+                        InfermieriID=  '" + ll.InfermieriID + @"'
+                        ,KontrollaID=  '" + ll.KontrollaID + @"'
+                        
+                         where  InfermieriID=  '" + ll.InfermieriID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -107,8 +103,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Vizitori
-                where VizitoriID=" + id + @"
+                delete from Kontrollon
+                where InfermieriID=" + id + @"
             ";
 
             DataTable table = new DataTable();

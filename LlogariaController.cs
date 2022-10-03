@@ -9,11 +9,11 @@ namespace LabCourseBackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VizitoriController : ControllerBase
+    public class LlogariaController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public VizitoriController(IConfiguration configuration)
+        public LlogariaController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -21,7 +21,7 @@ namespace LabCourseBackEnd.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @" select * from Vizitori";
+            string query = @" select * from Llogaria";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("ProjektiAppCon");
             SqlDataReader myReader;
@@ -41,17 +41,15 @@ namespace LabCourseBackEnd.Controllers
 
 
         [HttpPost]
-        public JsonResult Post(Vizitori l)
+        public JsonResult Post(Llogaria l)
         {
             string query = @"
-                        insert into Vizitori (VizitoriID,Emri,Mbiemri,BurgosuriID,EmriIBurgosurit)
+                        insert into Llogaria (OficeriID,username,passwordi)
                         values 
                         (
-                        '" + l.VizitoriID + @"'
-                        ,'" + l.Emri + @"'
-                        ,'" + l.Mbiemri + @"'
-                        ,'" + l.BurgosuriID + @"'
-                        ,'" + l.EmriIBurgosurit + @"'
+                        '" + l.OficeriID + @"'
+                        ,'" + l.username + @"'
+                        ,'" + l.passwordi + @"'
                         )
                         ";
 
@@ -74,16 +72,14 @@ namespace LabCourseBackEnd.Controllers
         }
 
         [HttpPut]
-        public JsonResult Put(Vizitori ll)
+        public JsonResult Put(Llogaria ll)
         {
-            string query = @" update dbo.Vizitori set
+            string query = @" update dbo.Llogaria set
                      
-                        VizitoriID=  '" + ll.VizitoriID + @"'
-                        ,Emri=  '" + ll.Emri + @"'
-                        ,Mbiemri=  '" + ll.Mbiemri + @"'
-                        ,BurgosuriID=  '" + ll.BurgosuriID + @"'
-                        ,EmriIBurgosurit=  '" + ll.EmriIBurgosurit + @"'
-                         where  VizitoriID=  '" + ll.VizitoriID + @"'
+                        OficeriID=  '" + ll.OficeriID + @"'
+                        ,username=  '" + ll.username + @"'
+                        ,passwordi=  '" + ll.passwordi + @"'
+                         where  OficeriID=  '" + ll.OficeriID + @"'
                         ";
 
             DataTable table = new DataTable();
@@ -107,8 +103,8 @@ namespace LabCourseBackEnd.Controllers
         public JsonResult Delete(int id)
         {
             string query = @" 
-                delete from Vizitori
-                where VizitoriID=" + id + @"
+                delete from Llogaria
+                where OficeriID=" + id + @"
             ";
 
             DataTable table = new DataTable();
